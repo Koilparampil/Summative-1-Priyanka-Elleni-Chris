@@ -3,9 +3,7 @@ package com.company.Summative1PriyankaElleniChris.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -20,17 +18,22 @@ public class Console {
     @NotNull
     private Integer id;
     @NotEmpty(message = "You must provide a model name.")
+    @Size(max = 50, message = "Model cannot be more than 50 characters")
     private String model;
     @NotEmpty(message = "You must provide a manufacturer name.")
+    @Size(max = 50, message = "Manufacturer cannot be more than 50 characters")
     private String manufacturer;
 
     @Column(name = "memory_amount")
     @NotEmpty(message = "You must provide a memory amount.")
+    @Size(max = 20, message = "Memory amount cannot be more than 20 characters")
     private String memoryAmount;
     @NotEmpty(message = "You must provide a processor type.")
+    @Size(max = 20, message = "Processor cannot be more than 20 characters")
     private String Processor;
 
     @NotNull(message = "The Price cannot be null.")
+    @Digits(integer = 5, fraction = 2)
     private BigDecimal price;
     @NotNull(message = "There must be a quantity.")
     @Min(1)

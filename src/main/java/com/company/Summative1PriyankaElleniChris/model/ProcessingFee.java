@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class ProcessingFee {
     private String productType;
 
     @NotNull(message = "There must be a fee associated with the product type.")
+    @Digits(integer = 5, fraction = 2)
     private BigDecimal fee;
 
     public ProcessingFee() {
