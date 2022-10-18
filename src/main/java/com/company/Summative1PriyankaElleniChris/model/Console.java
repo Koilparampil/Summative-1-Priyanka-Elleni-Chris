@@ -15,7 +15,6 @@ public class Console {
     @Id
     @Column(name = "console_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
     private Integer id;
     @NotEmpty(message = "You must provide a model name.")
     @Size(max = 50, message = "Model cannot be more than 50 characters")
@@ -51,7 +50,14 @@ public class Console {
         this.price = price;
         this.quantity = quantity;
     }
-
+    public Console(String model, String manufacturer, String memoryAmount, String processor, BigDecimal price, Integer quantity) {
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.memoryAmount = memoryAmount;
+        Processor = processor;
+        this.price = price;
+        this.quantity = quantity;
+    }
     public Integer getId() {
         return id;
     }
