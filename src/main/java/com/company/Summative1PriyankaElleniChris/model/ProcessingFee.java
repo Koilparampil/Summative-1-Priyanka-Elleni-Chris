@@ -16,10 +16,10 @@ import java.util.Objects;
 public class ProcessingFee {
 
     @Id
-    @NotEmpty
+    @NotEmpty(message = "You must provide a Product Type")
     private String productType;
 
-    @NotNull
+    @NotNull(message = "There must be a fee associated with the product type.")
     private BigDecimal fee;
 
     public ProcessingFee() {

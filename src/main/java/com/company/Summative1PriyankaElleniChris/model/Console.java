@@ -19,20 +19,20 @@ public class Console {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull
     private Integer id;
-    @NotEmpty
+    @NotEmpty(message = "You must provide a model name.")
     private String model;
-    @NotEmpty
+    @NotEmpty(message = "You must provide a manufacturer name.")
     private String manufacturer;
 
     @Column(name = "memory_amount")
-    @NotEmpty
+    @NotEmpty(message = "You must provide a memory amount.")
     private String memoryAmount;
-    @NotEmpty
+    @NotEmpty(message = "You must provide a processor type.")
     private String Processor;
 
-    @NotEmpty
+    @NotNull(message = "The Price cannot be null.")
     private BigDecimal price;
-    @NotNull
+    @NotNull(message = "There must be a quantity.")
     @Min(1)
     private Integer quantity;
 
