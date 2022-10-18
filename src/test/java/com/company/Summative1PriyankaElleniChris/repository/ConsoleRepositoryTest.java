@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
@@ -72,7 +73,56 @@ public class ConsoleRepositoryTest {
         assertFalse(console1==console2.get());
     }
 
+    @Test
+    public void getAllConsoles(){
+        Console console = new Console();
+        console.setModel("Switch");
+        console.setManufacturer("Nintendo");
+        console.setMemoryAmount("256GB");
+        console.setProcessor("NVIDIA Tegra");
+        console.setPrice( new BigDecimal("250.99"));
+        console.setQuantity(12);
+
+        console= consoleRepository.save(console);
+
+        console = new Console();
+        console.setModel("DSiXL");
+        console.setManufacturer("Nintendo");
+        console.setMemoryAmount("64GB");
+        console.setProcessor("ARM7");
+        console.setPrice( new BigDecimal("169.99"));
+        console.setQuantity(10);
+
+        console= consoleRepository.save(console);
+
+        List<Console> cList = consoleRepository.findAll();
+        assertEquals(cList.size(),2);
+    }
+    @Test
+    public void getConsolesByManufacturer(){
+        Console console = new Console();
+        console.setModel("Switch");
+        console.setManufacturer("Nintendo");
+        console.setMemoryAmount("256GB");
+        console.setProcessor("NVIDIA Tegra");
+        console.setPrice( new BigDecimal("250.99"));
+        console.setQuantity(12);
+
+        console= consoleRepository.save(console);
+
+        Console console1 = new Console();
+        console1.setModel("PSP");
+        console1.setManufacturer("Sony");
+        console1.setMemoryAmount("64GB");
+        console1.setProcessor("MIPS32 ");
+        console1.setPrice( new BigDecimal("279.99"));
+        console1.setQuantity(11);
+
+        console1= consoleRepository.save(console1);
 
 
+        List<Console> consolesByMan = consoleRepository.findByManufacturer("Sony");
+        assertEquals(1,consolesByMan.size());
+    }
 
 }
