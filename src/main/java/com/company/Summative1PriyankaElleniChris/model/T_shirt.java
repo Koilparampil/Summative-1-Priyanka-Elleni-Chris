@@ -1,4 +1,6 @@
 package com.company.Summative1PriyankaElleniChris.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -8,11 +10,11 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "t_shirt")
 public class T_shirt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name= "t_shirt_id")
     @NotNull
     private Integer id;
