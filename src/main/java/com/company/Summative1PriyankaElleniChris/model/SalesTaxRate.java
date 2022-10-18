@@ -2,13 +2,14 @@ package com.company.Summative1PriyankaElleniChris.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-
+@Table(name = "sales_tax_rate")
 public class SalesTaxRate {
     @Id
     @NotNull(message = "please put the state")
