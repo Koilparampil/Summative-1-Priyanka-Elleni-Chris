@@ -1,7 +1,7 @@
 package com.company.Summative1PriyankaElleniChris.model;
-
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
@@ -17,22 +17,20 @@ public class T_shirt {
     @NotNull
     private Integer id;
 
-    @Column(nullable = false, length = 20 )
     @NotNull @Size(max = 20)
     private Integer size;
 
-    @NotNull @Size(max = 20)
-    @Column(length = 20)
+    @NotEmpty(message = "You should put the color") @Size(max = 20)
+    @NotNull(message = "please put the color value")
     private String color;
 
-    @Column(length = 255)
-    @NotNull @Size(max = 255)
-    private String Description;
-    @Column(nullable = false, precision = 5, scale = 2)
+    @NotEmpty(message = "You should put the description") @Size(max = 255)
+    private String description;
+
+    @Digits(integer =  5, fraction = 2)
+    @NotNull(message = "Please add the price")
     private BigDecimal price;
-
-    @Column(nullable = false)
-
+    @NotEmpty(message = "You need to put the quantity")
     private Integer quantity;
 
     public T_shirt() {
@@ -42,7 +40,7 @@ public class T_shirt {
         this.id = id;
         this.size = size;
         this.color = color;
-        Description = description;
+        this.description = description;
         this.price = price;
         this.quantity = quantity;
     }
@@ -72,11 +70,11 @@ public class T_shirt {
     }
 
     public String getDescription() {
-        return Description;
+        return description;
     }
 
     public void setDescription(String description) {
-        Description = description;
+       this.description=  description;
     }
 
     public BigDecimal getPrice() {
@@ -100,12 +98,12 @@ public class T_shirt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         T_shirt t_shirt = (T_shirt) o;
-        return Objects.equals(id, t_shirt.id) && Objects.equals(size, t_shirt.size) && Objects.equals(color, t_shirt.color) && Objects.equals(Description, t_shirt.Description) && Objects.equals(price, t_shirt.price) && Objects.equals(quantity, t_shirt.quantity);
+        return Objects.equals(id, t_shirt.id) && Objects.equals(size, t_shirt.size) && Objects.equals(color, t_shirt.color) && Objects.equals(description, t_shirt.description) && Objects.equals(price, t_shirt.price) && Objects.equals(quantity, t_shirt.quantity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, size, color, Description, price, quantity);
+        return Objects.hash(id, size, color, description, price, quantity);
     }
 
     @Override
@@ -114,7 +112,7 @@ public class T_shirt {
                 "id=" + id +
                 ", size=" + size +
                 ", color='" + color + '\'' +
-                ", Description='" + Description + '\'' +
+                ", Description='" + description + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
                 '}';
