@@ -21,7 +21,7 @@ public class ProcessingFee {
     private String productType;
 
     @NotNull(message = "There must be a fee associated with the product type.")
-    @Digits(integer = 5, fraction = 2)
+    @Digits(integer = 4, fraction = 2)
     private BigDecimal fee;
 
     public ProcessingFee() {
