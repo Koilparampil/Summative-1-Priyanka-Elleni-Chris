@@ -36,6 +36,19 @@ public class Console {
     @Min(1)
     private Integer quantity;
 
+    public Console() {
+    }
+
+    public Console(Integer id, String model, String manufacturer, String memoryAmount, String processor, BigDecimal price, Integer quantity) {
+        this.id = id;
+        this.model = model;
+        this.manufacturer = manufacturer;
+        this.memoryAmount = memoryAmount;
+        Processor = processor;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public Integer getId() {
         return id;
     }
