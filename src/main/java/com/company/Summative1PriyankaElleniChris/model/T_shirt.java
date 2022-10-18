@@ -16,11 +16,11 @@ public class T_shirt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name= "t_shirt_id")
-    @NotNull
+
     private Integer id;
 
     @NotNull @Size(max = 20)
-    private Integer size;
+    private String size;
 
     @NotEmpty(message = "You should put the color") @Size(max = 20)
     @NotNull(message = "please put the color value")
@@ -32,13 +32,13 @@ public class T_shirt {
     @Digits(integer =  5, fraction = 2)
     @NotNull(message = "Please add the price")
     private BigDecimal price;
-    @NotEmpty(message = "You need to put the quantity")
+    @NotNull(message = "You need to put the quantity")
     private Integer quantity;
 
     public T_shirt() {
     }
 
-    public T_shirt(Integer id, Integer size, String color, String description, BigDecimal price, Integer quantity) {
+    public T_shirt(Integer id, String size, String color, String description, BigDecimal price, Integer quantity) {
         this.id = id;
         this.size = size;
         this.color = color;
@@ -55,11 +55,11 @@ public class T_shirt {
         this.id = id;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

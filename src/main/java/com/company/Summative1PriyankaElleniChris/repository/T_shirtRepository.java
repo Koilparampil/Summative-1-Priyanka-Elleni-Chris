@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface T_shirtRepository extends JpaRepository<T_shirt, Integer> {
     List<T_shirt> findT_shirtByColor(String color);
-    List<T_shirt> findT_shirtBySize(String size);
+    List<T_shirt>findT_shirtBySize(String size);
 
 
 }
