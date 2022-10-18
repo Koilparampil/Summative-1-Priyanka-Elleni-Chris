@@ -17,7 +17,6 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "invoice_id")
-    @NotNull
     private Integer invoiceId;
 
     @NotNull(message = "Name cannot be null")

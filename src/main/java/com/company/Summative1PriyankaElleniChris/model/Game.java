@@ -18,7 +18,6 @@ public class Game {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "game_id")
-    @NotNull(message = "Id cannot be null")
     private Integer gameId;
 
     @NotNull(message = "Title cannot be null")
@@ -38,7 +37,6 @@ public class Game {
     private String description;
 
     @NotNull(message = "Price cannot be null")
-    @NotEmpty(message = "You must supply a value for price")
     @Digits(integer = 5, fraction = 2)
     private BigDecimal price;
 
@@ -48,7 +46,6 @@ public class Game {
     private String studio;
 
     @NotNull(message = "Quantity cannot be null")
-    @NotEmpty(message = "You must supply a value for quantity")
     private Integer quantity;
 
     // Default constructor
