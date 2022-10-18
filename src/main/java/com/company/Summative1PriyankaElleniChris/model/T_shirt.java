@@ -1,7 +1,9 @@
 package com.company.Summative1PriyankaElleniChris.model;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -12,26 +14,31 @@ public class T_shirt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @Column(name= "t_shirt_id")
-    private int id;
+    @NotNull
+    private Integer id;
 
     @Column(nullable = false, length = 20 )
-    private int size;
+    @NotNull @Size(max = 20)
+    private Integer size;
 
-    @NotNull
+    @NotNull @Size(max = 20)
     @Column(length = 20)
     private String color;
 
     @Column(length = 255)
-    @NotNull
+    @NotNull @Size(max = 255)
     private String Description;
-
     @Column(nullable = false, precision = 5, scale = 2)
     private BigDecimal price;
 
     @Column(nullable = false)
-    private int quantity;
 
-    public T_shirt(int id, int size, String color, String description, BigDecimal price, int quantity) {
+    private Integer quantity;
+
+    public T_shirt() {
+    }
+
+    public T_shirt(Integer id, Integer size, String color, String description, BigDecimal price, Integer quantity) {
         this.id = id;
         this.size = size;
         this.color = color;
@@ -40,22 +47,19 @@ public class T_shirt {
         this.quantity = quantity;
     }
 
-    public T_shirt() {
-    }
-
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getSize() {
+    public Integer getSize() {
         return size;
     }
 
-    public void setSize(int size) {
+    public void setSize(Integer size) {
         this.size = size;
     }
 
@@ -83,11 +87,11 @@ public class T_shirt {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
@@ -96,7 +100,7 @@ public class T_shirt {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         T_shirt t_shirt = (T_shirt) o;
-        return id == t_shirt.id && size == t_shirt.size && quantity == t_shirt.quantity && Objects.equals(color, t_shirt.color) && Objects.equals(Description, t_shirt.Description) && Objects.equals(price, t_shirt.price);
+        return Objects.equals(id, t_shirt.id) && Objects.equals(size, t_shirt.size) && Objects.equals(color, t_shirt.color) && Objects.equals(Description, t_shirt.Description) && Objects.equals(price, t_shirt.price) && Objects.equals(quantity, t_shirt.quantity);
     }
 
     @Override
