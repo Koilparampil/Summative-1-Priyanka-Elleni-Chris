@@ -21,7 +21,6 @@ public class T_shirtController {
         return repo.save(t_shirt);
 
     }
-
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<T_shirt> getAllTshirts() {
@@ -34,6 +33,16 @@ public class T_shirtController {
     public List<T_shirt> getTshirtsByColor(@PathVariable String color) {
         return repo.findT_shirtByColor(color);
 
+    }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+
+    public T_shirt getTshirtById (@PathVariable int id){
+        Optional<T_shirt>t_shirt = repo.findById(id);
+            if(t_shirt.isPresent()){
+                return t_shirt.get();
+        }else
+        return null;
     }
 
     @GetMapping("/size/{size}")
@@ -53,7 +62,6 @@ public class T_shirtController {
     public void deleteTshirt(@PathVariable int id) {
 
             repo.deleteById(id);
-
-
     }
+
 }
