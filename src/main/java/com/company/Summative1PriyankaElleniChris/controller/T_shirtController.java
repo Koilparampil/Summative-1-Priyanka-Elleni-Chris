@@ -1,5 +1,4 @@
 package com.company.Summative1PriyankaElleniChris.controller;
-
 import com.company.Summative1PriyankaElleniChris.model.T_shirt;
 import com.company.Summative1PriyankaElleniChris.repository.T_shirtRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/Tshirt")
 public class T_shirtController {
@@ -17,22 +17,22 @@ public class T_shirtController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public T_shirt addNewTshirt(@RequestBody @Valid T_shirt t_shirt){
-        return  repo.save(t_shirt);
+    public T_shirt addNewTshirt(@RequestBody @Valid T_shirt t_shirt) {
+        return repo.save(t_shirt);
 
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<T_shirt> getAllTshirts (){
+    public List<T_shirt> getAllTshirts() {
 
         return repo.findAll();
     }
 
-    @GetMapping(value= "/color/{color}")
+    @GetMapping(value = "/color/{color}")
     @ResponseStatus(HttpStatus.OK)
-    public List<T_shirt> getTshirtsByColor(@PathVariable String color){
-      return repo.findT_shirtByColor(color);
+    public List<T_shirt> getTshirtsByColor(@PathVariable String color) {
+        return repo.findT_shirtByColor(color);
 
     }
 
@@ -41,16 +41,19 @@ public class T_shirtController {
     public List<T_shirt> getTshirtBySize(@PathVariable String size) {
         return repo.findT_shirtBySize(size);
     }
+
     @PutMapping()
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public T_shirt updateAT_shirt(@RequestBody @Valid T_shirt t_shirt){
+    public T_shirt updateAT_shirt(@RequestBody @Valid T_shirt t_shirt) {
         return repo.save(t_shirt);
     }
-    @DeleteMapping("/id")
+
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTshirt(@PathVariable int id){
-        repo.deleteById(id);
+    public void deleteTshirt(@PathVariable int id) {
+
+            repo.deleteById(id);
+
 
     }
-
 }
