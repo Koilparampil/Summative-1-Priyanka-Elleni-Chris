@@ -28,7 +28,7 @@ public class GameRepositoryTest {
     // Testcase for Create, Read by id and delete by id
     @Test
     public void shouldCreateReadDeleteGame() {
-        Game game = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "abc", 4));
+        Game game = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "Sony", 4));
         int id = game.getGameId();
         assertEquals(true, gameRepository.existsById(id));
         gameRepository.deleteById(id);
@@ -38,8 +38,8 @@ public class GameRepositoryTest {
     // Testcase for Read All
     @Test
     public void shouldReadAllGames() {
-        gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "abc", 4));
-        gameRepository.save(new Game("Game2", "Average", "Game 2 description", new BigDecimal("245.50"), "def", 5));
+        gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "Sony", 4));
+        gameRepository.save(new Game("Game2", "Average", "Game 2 description", new BigDecimal("245.50"), "Capcom", 5));
 
         List<Game> games = gameRepository.findAll();
         assertEquals(2, games.size());
@@ -50,7 +50,7 @@ public class GameRepositoryTest {
     public void shouldUpdateGame() {
         final String newTitle = "New game";
 
-        Game game = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "abc", 4));
+        Game game = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "Sony", 4));
         game.setTitle(newTitle);
         Game updatedGame = gameRepository.save(game);
         assertEquals(updatedGame.getTitle(), newTitle);
@@ -59,11 +59,11 @@ public class GameRepositoryTest {
     // Testcase for Read by studio
     @Test
     public void shouldFindByStudio() {
-        Game game1 = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "abc", 4));
-        Game game2 = gameRepository.save(new Game("Game2", "Average", "Game 2 description", new BigDecimal("245.50"), "def", 5));
-        Game game3 = gameRepository.save(new Game("Game3", "Average", "Game 3 description", new BigDecimal("2.50"), "abc", 6));
+        Game game1 = gameRepository.save(new Game("Game1", "Good", "Game 1 description", new BigDecimal("45.30"), "Sony", 4));
+        Game game2 = gameRepository.save(new Game("Game2", "Average", "Game 2 description", new BigDecimal("245.50"), "Capcom", 5));
+        Game game3 = gameRepository.save(new Game("Game3", "Average", "Game 3 description", new BigDecimal("2.50"), "Sony", 6));
 
-        List<Game> games = gameRepository.findByStudio("abc");
+        List<Game> games = gameRepository.findByStudio("Sony");
         assertEquals(2, games.size());
     }
 
