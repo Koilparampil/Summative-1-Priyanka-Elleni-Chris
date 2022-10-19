@@ -30,7 +30,7 @@ public class ConsoleController {
         if (returnVal.isPresent()){
             return returnVal.get();
         } else {
-            throw new NoSuchFieldException("Record not Found in Collection");
+            throw new NoSuchFieldException("Console not Found in Collection");
         }
     }
     @GetMapping("manufacturer/{manufacturer}")
