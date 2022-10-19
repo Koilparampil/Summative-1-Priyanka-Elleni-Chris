@@ -90,7 +90,7 @@ public class ControllerExceptionHandler {
     }
     @ExceptionHandler(value = EmptyResultDataAccessException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<CustomErrorResponse> outOfRangeException(EmptyResultDataAccessException e) {
+    public ResponseEntity<CustomErrorResponse> fifthException(EmptyResultDataAccessException e) {
         CustomErrorResponse error = new CustomErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.toString(), e.getMessage());
         error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
         error.setTimestamp(LocalDateTime.now());
