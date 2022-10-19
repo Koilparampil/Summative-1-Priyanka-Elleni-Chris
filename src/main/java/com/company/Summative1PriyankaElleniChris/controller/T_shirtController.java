@@ -21,7 +21,6 @@ public class T_shirtController {
         return repo.save(t_shirt);
 
     }
-
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public List<T_shirt> getAllTshirts() {
@@ -53,7 +52,6 @@ public class T_shirtController {
     public void deleteTshirt(@PathVariable int id) {
 
             repo.deleteById(id);
-
-
     }
+
 }
