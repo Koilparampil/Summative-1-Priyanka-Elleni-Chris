@@ -150,4 +150,49 @@ public class ConsoleControllerTest {
                 .andExpect(jsonPath("$[0]").isNotEmpty());// ASSERT that the JSON array is present and not empty
     }
 
+    @Test
+    public void shouldUpdateConsoleAndReturn204StatusCode() throws Exception {
+        Console console = new Console();
+        console.setModel("Switch");
+        console.setManufacturer("Nintendo");
+        console.setMemoryAmount("256GB");
+        console.setProcessor("NVIDIA Tegra");
+        console.setPrice( new BigDecimal("250.99"));
+        console.setQuantity(12);
+        console = consoleRepository.save(console);
+
+        console.setModel("Switch2");
+        console.setMemoryAmount("512GB");
+        console.setPrice( new BigDecimal("300.99"));
+        console.setQuantity(2);
+        String inputConsoleJSON =mapper.writeValueAsString(console);
+        mockMvc.perform(
+                        put("/consoles/")
+                                .content(inputConsoleJSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isNoContent()); // ASSERT that we got back 204 NO CONTENT.
+        mockMvc.perform(
+                        get("/consoles/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(content().json(inputConsoleJSON)); // ASSERT that the record was updated successfully.
+    }
+    @Test
+    public void shouldDeleteByIdAndReturn204StatusCode() throws Exception {
+        Console console = new Console();
+        console.setModel("Switch");
+        console.setManufacturer("Nintendo");
+        console.setMemoryAmount("256GB");
+        console.setProcessor("NVIDIA Tegra");
+        console.setPrice( new BigDecimal("250.99"));
+        console.setQuantity(12);
+        consoleRepository.save(console);
+        mockMvc.perform(delete("/consoles/1"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
 }

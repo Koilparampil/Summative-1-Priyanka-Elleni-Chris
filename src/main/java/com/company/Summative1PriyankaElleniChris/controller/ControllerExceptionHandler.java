@@ -1,6 +1,7 @@
 package com.company.Summative1PriyankaElleniChris.controller;
 
 import com.company.Summative1PriyankaElleniChris.model.CustomErrorResponse;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -87,6 +88,14 @@ public class ControllerExceptionHandler {
         ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
         return responseEntity;
     }
-
+    @ExceptionHandler(value = EmptyResultDataAccessException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<CustomErrorResponse> outOfRangeException(EmptyResultDataAccessException e) {
+        CustomErrorResponse error = new CustomErrorResponse(HttpStatus.UNPROCESSABLE_ENTITY.toString(), e.getMessage());
+        error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
+        error.setTimestamp(LocalDateTime.now());
+        ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        return responseEntity;
+    }
 
 }
