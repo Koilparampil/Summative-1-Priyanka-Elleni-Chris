@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SalesTaxRatRepository extends JpaRepository<SalesTaxRate, String > {
 
-
+        SalesTaxRate findByState(String state);
 }
