@@ -9,13 +9,18 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -28,29 +33,63 @@ public class ConsoleControllerTest {
 
     private ObjectMapper mapper = new ObjectMapper();
 
-    @Autowired
+    @MockBean
     ConsoleRepository consoleRepository;
 
+    private Console console;
+    private String consoleJSON;
+
+    private Console console1;
+    private String console1JSON;
+
+    private Console console2;
+
+    private String console2JSON;
+
+    private List<Console> allConsoles =new ArrayList<>();
+    private String allConsolesJSON;
     @Before
     public void setUp() throws Exception {
-        consoleRepository.deleteAll();
-    }
-
-    @Test
-    public void shouldReturn422StatusCodeWithInvalidRequestBodyPOSTRequest() throws Exception {
-        Console console = new Console();
+        //Object with no ID
+        console = new Console();
         console.setModel("Switch");
-//        console.setManufacturer("Nintendo"); Object without a Manufacturer
+        console.setManufacturer("Nintendo");
         console.setMemoryAmount("256GB");
         console.setProcessor("NVIDIA Tegra");
         console.setPrice( new BigDecimal("250.99"));
         console.setQuantity(12);
+        consoleJSON = mapper.writeValueAsString(console);
 
-        String consoleJSON =mapper.writeValueAsString(console);
 
+        //Same Object with ID
+        console2 = new Console();
+        console2.setModel("Switch");
+        console2.setManufacturer("Nintendo");
+        console2.setMemoryAmount("256GB");
+        console2.setProcessor("NVIDIA Tegra");
+        console2.setPrice( new BigDecimal("250.99"));
+        console2.setQuantity(12);
+        console2.setId(1);
+        console2JSON = mapper.writeValueAsString(console2);
+
+        allConsoles.add(console2);
+        allConsolesJSON =mapper.writeValueAsString(allConsoles);
+
+        //Unfinished Object
+        console1 = new Console();
+        console1.setModel("Switch2");
+        console1.setMemoryAmount("512GB");
+        console1.setProcessor("NVIDIA Tegra");
+        console1.setPrice( new BigDecimal("300.99"));
+        console1.setQuantity(2);
+        console1JSON = mapper.writeValueAsString(console1);
+    }
+
+    @Test
+    public void shouldReturn422StatusCodeWithInvalidRequestBodyPOSTRequest() throws Exception {
         mockMvc.perform(
                 post("/consoles")
-                        .content(consoleJSON)
+                        .content(console1JSON)
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andDo(print())
@@ -59,27 +98,16 @@ public class ConsoleControllerTest {
     }
 
     @Test
-    public void shouldReturn404StatusCodeIfConsoleNotFound() throws Exception{
+    public void shouldReturn422StatusCodeIfConsoleNotFound() throws Exception{
         mockMvc.perform(get("/consoles/-1"))
                 .andDo(print())
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnprocessableEntity());
     }
     @Test
     public void shouldReturn422StatusCodeWithInvalidRequestBodyPUTRequest() throws Exception {
-        Console console = new Console();
-        console.setId(1);
-        console.setModel("Switch");
-//        console.setManufacturer("Nintendo"); Object without a Manufacturer
-        console.setMemoryAmount("256GB");
-        console.setProcessor("NVIDIA Tegra");
-        console.setPrice( new BigDecimal("250.99"));
-        console.setQuantity(12);
-
-        String consoleJSON =mapper.writeValueAsString(console);
-
         mockMvc.perform(
                         put("/consoles")
-                                .content(consoleJSON)
+                                .content(console1JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -89,61 +117,31 @@ public class ConsoleControllerTest {
 
     @Test
      public void shouldReturnNewConsoleOnPostRequest() throws Exception{
-        Console inputConsole = new Console();
-        inputConsole.setModel("Switch");
-        inputConsole.setManufacturer("Nintendo");
-        inputConsole.setMemoryAmount("256GB");
-        inputConsole.setProcessor("NVIDIA Tegra");
-        inputConsole.setPrice( new BigDecimal("250.99"));
-        inputConsole.setQuantity(12);
-
-        String inputConsoleJSON =mapper.writeValueAsString(inputConsole);
-
-        Console outputConsole= consoleRepository.save(inputConsole);
-
-        String outputConsoleJSON = mapper.writeValueAsString(outputConsole);
+        doReturn(console2).when(consoleRepository).save(console);
 
         mockMvc.perform(
                 post("/consoles")
-                        .content(inputConsoleJSON)
+                        .content(consoleJSON)
                         .contentType(MediaType.APPLICATION_JSON)
         )
                 .andDo(print())
-                .andExpect(status().isOk())                     // ASSERT that we got back 200 OK.
-                .andExpect(content().json(outputConsoleJSON));         // ASSERT that what we're expecting is what we got back.
+                .andExpect(status().isCreated())                     // ASSERT that we got back 200 OK.
+                .andExpect(content().json(console2JSON));         // ASSERT that what we're expecting is what we got back.
     }
     @Test
     public void shouldReturnConsoleById() throws Exception {
-        Console inputConsole = new Console();
-        inputConsole.setModel("Switch");
-        inputConsole.setManufacturer("Nintendo");
-        inputConsole.setMemoryAmount("256GB");
-        inputConsole.setProcessor("NVIDIA Tegra");
-        inputConsole.setPrice( new BigDecimal("250.99"));
-        inputConsole.setQuantity(12);
-
-        Console outputConsole= consoleRepository.save(inputConsole);
-
-        String outputConsoleJSON = mapper.writeValueAsString(outputConsole);
+        Optional<Console> optConsole = Optional.of(console2);
+        doReturn(optConsole).when(consoleRepository).findById(1);
         mockMvc.perform(get("/consoles/1"))
                 .andDo(print())
                 .andExpect(status().isOk())                     // ASSERT that we got back 200 OK.
-                .andExpect(content().json(outputConsoleJSON));         // ASSERT that what we're expecting is what we got back.
+                .andExpect(content().json(console2JSON));         // ASSERT that what we're expecting is what we got back.
     }
     @Test
     public void shouldReturnAllConsoles() throws Exception {
 
-        // ARRANGE
-        Console inputConsole = new Console();
-        inputConsole.setModel("Switch");
-        inputConsole.setManufacturer("Nintendo");
-        inputConsole.setMemoryAmount("256GB");
-        inputConsole.setProcessor("NVIDIA Tegra");
-        inputConsole.setPrice( new BigDecimal("250.99"));
-        inputConsole.setQuantity(12);
+        doReturn(allConsoles).when(consoleRepository).findAll();
 
-        consoleRepository.save(inputConsole);
-        //ACT
         mockMvc.perform(get("/consoles"))       // Perform the GET request.
                 .andDo(print())                          // Print results to console.
                 .andExpect(status().isOk())              // ASSERT (status code is 200)
@@ -152,44 +150,17 @@ public class ConsoleControllerTest {
 
     @Test
     public void shouldUpdateConsoleAndReturn204StatusCode() throws Exception {
-        Console console = new Console();
-        console.setModel("Switch");
-        console.setManufacturer("Nintendo");
-        console.setMemoryAmount("256GB");
-        console.setProcessor("NVIDIA Tegra");
-        console.setPrice( new BigDecimal("250.99"));
-        console.setQuantity(12);
-        console = consoleRepository.save(console);
-
-        console.setModel("Switch2");
-        console.setMemoryAmount("512GB");
-        console.setPrice( new BigDecimal("300.99"));
-        console.setQuantity(2);
-        String inputConsoleJSON =mapper.writeValueAsString(console);
         mockMvc.perform(
-                        put("/consoles/")
-                                .content(inputConsoleJSON)
+                        put("/consoles")
+                                .content(console2JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
                 .andExpect(status().isNoContent()); // ASSERT that we got back 204 NO CONTENT.
-        mockMvc.perform(
-                        get("/consoles/1")
-                                .contentType(MediaType.APPLICATION_JSON)
-                )
-                .andDo(print())
-                .andExpect(content().json(inputConsoleJSON)); // ASSERT that the record was updated successfully.
+
     }
     @Test
     public void shouldDeleteByIdAndReturn204StatusCode() throws Exception {
-        Console console = new Console();
-        console.setModel("Switch");
-        console.setManufacturer("Nintendo");
-        console.setMemoryAmount("256GB");
-        console.setProcessor("NVIDIA Tegra");
-        console.setPrice( new BigDecimal("250.99"));
-        console.setQuantity(12);
-        consoleRepository.save(console);
         mockMvc.perform(delete("/consoles/1"))
                 .andDo(print())
                 .andExpect(status().isNoContent());

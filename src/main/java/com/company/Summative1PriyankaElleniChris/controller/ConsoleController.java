@@ -25,9 +25,13 @@ public class ConsoleController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Console getSingleConsole(@PathVariable Integer id){
+    public Console getSingleConsole(@PathVariable Integer id) throws NoSuchFieldException {
         Optional<Console> returnVal = consoleRepository.findById(id);
-        return returnVal.orElse(null);
+        if (returnVal.isPresent()){
+            return returnVal.get();
+        } else {
+            throw new NoSuchFieldException("Record not Found in Collection");
+        }
     }
     @GetMapping("manufacturer/{manufacturer}")
     @ResponseStatus(HttpStatus.OK)
