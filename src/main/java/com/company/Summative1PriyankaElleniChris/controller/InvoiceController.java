@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +40,8 @@ public class InvoiceController {
     }
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-
+    public Invoice createInvoice (@RequestBody @Valid Invoice invoice){
+        return invoiceRepository.save(invoice);
+    }
 
 }
