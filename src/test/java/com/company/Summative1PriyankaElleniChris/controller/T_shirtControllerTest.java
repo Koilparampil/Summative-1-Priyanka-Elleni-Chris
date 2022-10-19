@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -81,6 +82,31 @@ public class T_shirtControllerTest {
                 .andExpect(content().json(outputTshirtJson));
     }
     @Test
+    public void ShouldReturnUpdatedTshirt() throws Exception {
+        T_shirt inputTshirt = new T_shirt();
+        inputTshirt.setId(1);
+        inputTshirt.setSize("Medium");
+        inputTshirt.setColor("Blue");
+        inputTshirt.setDescription("Made in USA");
+        inputTshirt.setQuantity(6);
+        inputTshirt.setPrice(new BigDecimal("8.00"));
+
+        String inputTshirtJson = mapper.writeValueAsString(inputTshirt);
+
+
+        mockMvc.perform(put("/Tshirt")
+                        .content(inputTshirtJson)
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
+
+                .andExpect(status().isNoContent());
+    }
+
+
+
+
+
+    @Test
     public void ShouldReturnTshirtWithColor() throws Exception {
         T_shirt outputTshirt = new T_shirt();
         outputTshirt.setId(1);
@@ -101,6 +127,28 @@ public class T_shirtControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(outputTshirtJson));
     }
+
+    @Test
+    public void ShouldReturnTshirtById() throws Exception {
+        T_shirt outputTshirt = new T_shirt();
+        outputTshirt.setId(1);
+        outputTshirt.setSize("large");
+        outputTshirt.setColor("Blue");
+        outputTshirt.setDescription("Made in USA");
+        outputTshirt.setQuantity(6);
+        outputTshirt.setPrice(new BigDecimal("8.00"));
+
+
+       String  outputTshirtJson = mapper.writeValueAsString(outputTshirt);
+        doReturn(Optional.of(outputTshirt)).when(t_shirtRepository).findById(1);
+
+        mockMvc.perform(get("/Tshirt/{id}", 1))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(outputTshirtJson));
+    }
+
+
     @Test
     public void ShouldReturnTshirtWithSize() throws Exception {
         T_shirt outputTshirt = new T_shirt();
@@ -115,9 +163,9 @@ public class T_shirtControllerTest {
         t_shirtList.add(outputTshirt);
 
         outputTshirtJson = mapper.writeValueAsString(t_shirtList);
-        doReturn(t_shirtList).when(t_shirtRepository).findT_shirtBySize("6");
+        doReturn(t_shirtList).when(t_shirtRepository).findT_shirtBySize("large");
 
-        mockMvc.perform(get("/Tshirt/size/{size}", 6))
+        mockMvc.perform(get("/Tshirt/size/{size}", "large"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().json(outputTshirtJson));
@@ -199,7 +247,6 @@ public class T_shirtControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
     }
-
 
 }
 

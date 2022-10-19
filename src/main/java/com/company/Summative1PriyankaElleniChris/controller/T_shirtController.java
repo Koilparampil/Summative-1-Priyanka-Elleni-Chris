@@ -34,6 +34,16 @@ public class T_shirtController {
         return repo.findT_shirtByColor(color);
 
     }
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+
+    public T_shirt getTshirtById (@PathVariable int id){
+        Optional<T_shirt>t_shirt = repo.findById(id);
+            if(t_shirt.isPresent()){
+                return t_shirt.get();
+        }else
+        return null;
+    }
 
     @GetMapping("/size/{size}")
     @ResponseStatus(HttpStatus.OK)
