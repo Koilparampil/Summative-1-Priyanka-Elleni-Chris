@@ -46,40 +46,31 @@ public class Invoice {
 
     @Column(name = "item_type")
     @NotNull(message = "Item type cannot be null")
-
     @Size(max = 20, message = "Item type cannot be more than 20 characters")
     private String itemType;
 
     @Column(name = "item_id")
     @NotNull(message = "Item id cannot be null")
-
     private Integer itemId;
 
     @Column(name = "unit_price")
-    @NotNull(message = "Unit price cannot be null")
-
     @Digits(integer = 5, fraction = 2)
     private BigDecimal unitPrice;
 
     @NotNull(message = "Quantity cannot be null")
     private Integer quantity;
 
-    @NotNull(message = "Subtotal cannot be null")
+
     @Digits(integer = 5, fraction = 2)
     private BigDecimal subtotal;
-
-    @NotNull(message = "Tax cannot be null")
 
     @Digits(integer = 5, fraction = 2)
     private BigDecimal tax;
 
     @Column(name = "processing_fee")
-    @NotNull(message = "Processing fee cannot be null")
-
     @Digits(integer = 5, fraction = 2)
     private BigDecimal processingFee;
 
-    @NotNull(message = "Total cannot be null")
     @Digits(integer = 5, fraction = 2)
     private BigDecimal total;
 

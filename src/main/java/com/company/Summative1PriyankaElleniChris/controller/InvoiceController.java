@@ -2,6 +2,7 @@ package com.company.Summative1PriyankaElleniChris.controller;
 
 import com.company.Summative1PriyankaElleniChris.model.Invoice;
 import com.company.Summative1PriyankaElleniChris.repository.InvoiceRepository;
+import com.company.Summative1PriyankaElleniChris.service.ServiceLayer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class InvoiceController {
 
     @Autowired
     InvoiceRepository invoiceRepository;
+
+    @Autowired
+    private ServiceLayer serviceLayer;
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
@@ -41,7 +45,7 @@ public class InvoiceController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public Invoice createInvoice (@RequestBody @Valid Invoice invoice){
-        return invoiceRepository.save(invoice);
+        return serviceLayer.saveInvoice(invoice);
     }
 
 }

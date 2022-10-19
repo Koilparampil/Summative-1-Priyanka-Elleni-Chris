@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Service
 public class ServiceLayer {
@@ -33,33 +34,40 @@ public class ServiceLayer {
     public Invoice  saveInvoice( Invoice invoice){
         switch(invoice.getItemType()){
             case "Console":
-                invoice.setUnitPrice(consoleRepository.findById(invoice.getInvoiceId()).get().getPrice());
+                invoice.setUnitPrice(consoleRepository.findById(invoice.getItemId()).get().getPrice());
                 break;
             case "Game":
-                invoice.setUnitPrice(gameRepository.findById(invoice.getInvoiceId()).get().getPrice());
+                invoice.setUnitPrice(gameRepository.findById(invoice.getItemId()).get().getPrice());
                 break;
             case "T-Shirt":
-                invoice.setUnitPrice(t_shirtRepository.findById(invoice.getInvoiceId()).get().getPrice());
+                invoice.setUnitPrice(t_shirtRepository.findById(invoice.getItemId()).get().getPrice());
                 break;
         }
 
-        invoice.setSubtotal(new BigDecimal(invoice.getQuantity()* new Integer(String.valueOf(invoice.getUnitPrice()))));
+        BigDecimal tempSubTotal = new BigDecimal(
+                new Float(invoice.getQuantity())*
+                        new Float(String.valueOf(invoice.getUnitPrice())));
+        invoice.setSubtotal(tempSubTotal.setScale(2, RoundingMode.HALF_UP));
 
         float taxRate =salesTaxRatRepository.findByState(invoice.getState()).getRate();
         Float subtotal = new Float(String.valueOf(invoice.getSubtotal()));
-        invoice.setTax(new BigDecimal(taxRate*subtotal));
+        BigDecimal tempTax =new BigDecimal(taxRate*subtotal);
+        invoice.setTax(tempTax.setScale(2, RoundingMode.HALF_UP));
 
-        invoice.setProcessingFee(processingFeeRepository.findByProductType(invoice.getItemType()).getFee());
+        invoice.setProcessingFee(processingFeeRepository.findById(invoice.getItemType()).get().getFee());
         if (invoice.getQuantity()>10){
-            invoice.setProcessingFee(new BigDecimal(new Float(String.valueOf(invoice.getProcessingFee())+15.49)));
+            BigDecimal tempProcessingFee=invoice.getProcessingFee();
+            BigDecimal newProcessingFee = tempProcessingFee.add(new BigDecimal("15.49"));
+            invoice.setProcessingFee(newProcessingFee);
         }
 
         float tax= new Float(String.valueOf(invoice.getTax()));
         float processingFee = new Float(String.valueOf(invoice.getProcessingFee()));
-        invoice.setTotal(new BigDecimal(subtotal+tax+processingFee));
+        BigDecimal tempTotal = new BigDecimal(subtotal+tax+processingFee);
+        invoice.setTotal(tempTotal.setScale(2,RoundingMode.HALF_UP));
+
 
         invoiceRepository.save(invoice);
-
         return invoice;
     }
 
