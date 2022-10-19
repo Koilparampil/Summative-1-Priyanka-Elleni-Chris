@@ -194,5 +194,11 @@ public class ConsoleControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
     }
+    @Test
+    public void shouldReturn422StatusCodeIfConsoleNotFoundForDeletion() throws Exception{
+        mockMvc.perform(get("/consoles/-1"))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 
 }
