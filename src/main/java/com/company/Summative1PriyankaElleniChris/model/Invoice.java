@@ -62,11 +62,9 @@ public class Invoice {
     private BigDecimal unitPrice;
 
     @NotNull(message = "Quantity cannot be null")
-
     private Integer quantity;
 
     @NotNull(message = "Subtotal cannot be null")
-
     @Digits(integer = 5, fraction = 2)
     private BigDecimal subtotal;
 
@@ -82,14 +80,13 @@ public class Invoice {
     private BigDecimal processingFee;
 
     @NotNull(message = "Total cannot be null")
-
     @Digits(integer = 5, fraction = 2)
     private BigDecimal total;
 
     // Default constructor
     public Invoice() {}
 
-    public Invoice(String name, String street, String city, String state, String zipcode, String itemType, Integer itemId, BigDecimal unitPrice, Integer quantity, BigDecimal subtotal, BigDecimal tax, BigDecimal processingFee, BigDecimal total) {
+    public Invoice(String name, String street, String city, String state, String zipcode, String itemType, Integer itemId, BigDecimal unitPrice, Integer quantity) {
         this.name = name;
         this.street = street;
         this.city = city;
@@ -99,10 +96,6 @@ public class Invoice {
         this.itemId = itemId;
         this.unitPrice = unitPrice;
         this.quantity = quantity;
-        this.subtotal = subtotal;
-        this.tax = tax;
-        this.processingFee = processingFee;
-        this.total = total;
     }
 
     public Invoice(Integer invoiceId, String name, String street, String city, String state, String zipcode, String itemType, Integer itemId, BigDecimal unitPrice, Integer quantity, BigDecimal subtotal, BigDecimal tax, BigDecimal processingFee, BigDecimal total) {
