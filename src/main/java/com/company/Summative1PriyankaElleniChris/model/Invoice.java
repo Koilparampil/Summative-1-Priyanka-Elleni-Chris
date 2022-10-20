@@ -105,6 +105,9 @@ public class Invoice {
         this.total = total;
     }
 
+    public Invoice(String s, String s1, String clovis, String ca, String s2, String game, int i, BigDecimal bigDecimal, int i1, BigDecimal bigDecimal1, BigDecimal bigDecimal2, BigDecimal bigDecimal3, BigDecimal bigDecimal4) {
+    }
+
     public Integer getInvoiceId() {
         return invoiceId;
     }
