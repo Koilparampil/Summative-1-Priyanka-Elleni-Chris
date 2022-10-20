@@ -109,7 +109,7 @@ public class ServiceLayer {
         invoice.setTotal(tempTotal.setScale(2,RoundingMode.HALF_UP));// while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
 
 
-        invoiceRepository.save(invoice);
+        invoice= invoiceRepository.save(invoice);
         return invoice;
     }
 
