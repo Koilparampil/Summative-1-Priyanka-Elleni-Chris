@@ -51,6 +51,7 @@ public class SalesTaxRateRepositoryTest {
 
         assertNotEquals(taxRate1,taxRate2);
     }
+
     @Test
     public void shouldGetAllSalesTaxRates(){
         SalesTaxRate taxRate = new SalesTaxRate();
@@ -65,11 +66,6 @@ public class SalesTaxRateRepositoryTest {
 
         List<SalesTaxRate> salesTaxRateList = salesTaxRateRepository.findAll();
         assertEquals(salesTaxRateList.size(),2);
-
-
     }
-
-
-
 
 }
