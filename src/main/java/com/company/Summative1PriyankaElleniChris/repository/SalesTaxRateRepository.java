@@ -5,7 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SalesTaxRatRepository extends JpaRepository<SalesTaxRate, String > {
-
+public interface SalesTaxRateRepository extends JpaRepository<SalesTaxRate, String > {
 
 }
