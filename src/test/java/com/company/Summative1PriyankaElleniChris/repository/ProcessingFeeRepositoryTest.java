@@ -34,7 +34,7 @@ public class ProcessingFeeRepositoryTest {
 
         processingFeeRepository.save(processingFee);
         Optional<ProcessingFee> processingFee1= processingFeeRepository.findById(processingFee.getProductType());
-        assertEquals(processingFee1.get(),processingFee);
+        assertEquals(processingFee,processingFee1.get());
 
         processingFeeRepository.deleteById(processingFee.getProductType());
         processingFee1= processingFeeRepository.findById(processingFee.getProductType());
@@ -66,7 +66,7 @@ public class ProcessingFeeRepositoryTest {
         processingFeeRepository.save(processingFee2);
 
         List<ProcessingFee> processingFeeList = processingFeeRepository.findAll();
-        assertEquals(processingFeeList.size(),2);
+        assertEquals(2,processingFeeList.size());
     }
 
 }

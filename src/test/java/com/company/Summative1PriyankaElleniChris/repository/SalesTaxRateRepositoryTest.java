@@ -33,7 +33,7 @@ public class SalesTaxRateRepositoryTest {
 
         salesTaxRateRepository.save(taxRate);
         Optional<SalesTaxRate> taxRate1= salesTaxRateRepository.findById(taxRate.getState());
-        assertEquals(taxRate1.get(),taxRate);
+        assertEquals(taxRate,taxRate1.get());
 
         salesTaxRateRepository.deleteById(taxRate.getState());
         taxRate1 = salesTaxRateRepository.findById(taxRate.getState());
@@ -65,7 +65,7 @@ public class SalesTaxRateRepositoryTest {
         salesTaxRateRepository.save(taxRate2);
 
         List<SalesTaxRate> salesTaxRateList = salesTaxRateRepository.findAll();
-        assertEquals(salesTaxRateList.size(),2);
+        assertEquals(2,salesTaxRateList.size());
     }
 
 }
