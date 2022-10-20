@@ -64,9 +64,9 @@ public class InvoiceControllerTest {
    @Before
     public void setup() throws Exception {
 
-       inputInvoice1 = new Invoice("Customer 1", "100 Mani Street", "Clovis", "CA", "93612", "Game", 269, (new BigDecimal("12.99")), 12, (new BigDecimal("155.88")), (new BigDecimal(9.35)), (new BigDecimal(16.98)), (new BigDecimal(182.21)));
-       inputInvoice2 = new Invoice("Customer 2", "101 Mani Street", "Clovis", "NC", "93612", "Game", 220, (new BigDecimal("12.99")), 10, (new BigDecimal("155.88")), (new BigDecimal(9.35)), (new BigDecimal(16.98)), (new BigDecimal(182.21)));
-       inputInvoice3 = new Invoice("Customer 3", "102 Mani Street", "Clovis", "NY", "93612", "Game", 165, (new BigDecimal("12.99")), 9, (new BigDecimal("155.88")), (new BigDecimal(9.35)), (new BigDecimal(16.98)), (new BigDecimal(182.21)));
+       inputInvoice1 = new Invoice("Customer 1", "100 Mani Street", "Clovis", "CA", "93612", "Game", 269,  12);
+       inputInvoice2 = new Invoice("Customer 2", "101 Mani Street", "Clovis", "NC", "93612", "Game", 220,  10);
+       inputInvoice3 = new Invoice("Customer 3", "102 Mani Street", "Clovis", "NY", "93612", "Game", 165,  9);
        inputInvoice4 = new Invoice("Customer 3", "102 Mani Street", "Clovis", "NY", "93612", "Game", 165,  9);
 
        inputInvoiceList.add(inputInvoice1);
@@ -75,7 +75,7 @@ public class InvoiceControllerTest {
 
        inputInvoice1Json = mapper.writeValueAsString(inputInvoice1);
        inputInvoice2Json = mapper.writeValueAsString(inputInvoice2);
-       inputInvoice2Json = mapper.writeValueAsString(inputInvoice3);
+       inputInvoice3Json = mapper.writeValueAsString(inputInvoice3);
 
        outputInvoice1 = new Invoice(1, "Customer 1", "100 Mani Street", "Clovis", "CA", "93612", "Game", 269, (new BigDecimal("12.99")), 12, (new BigDecimal("155.88")), (new BigDecimal("9.35")), (new BigDecimal("16.98")), (new BigDecimal("182.21")));
        outputInvoice2 = new Invoice(2, "Customer 2", "101 Mani Street", "Clovis", "NC", "93612", "Game", 220, (new BigDecimal("12.99")), 10, (new BigDecimal("155.88")), (new BigDecimal("9.35")), (new BigDecimal("16.98")), (new BigDecimal("182.21")));
