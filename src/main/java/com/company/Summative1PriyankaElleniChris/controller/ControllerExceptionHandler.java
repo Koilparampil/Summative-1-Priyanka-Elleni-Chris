@@ -1,5 +1,6 @@
 package com.company.Summative1PriyankaElleniChris.controller;
 
+import com.company.Summative1PriyankaElleniChris.exceptions.OutOfStockException;
 import com.company.Summative1PriyankaElleniChris.model.CustomErrorResponse;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import javax.validation.UnexpectedTypeException;
 import java.time.LocalDateTime;
@@ -95,6 +97,24 @@ public class ControllerExceptionHandler {
         error.setStatus((HttpStatus.UNPROCESSABLE_ENTITY.value()));
         error.setTimestamp(LocalDateTime.now());
         ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        return responseEntity;
+    }
+    @ExceptionHandler(value = OutOfStockException.class)
+    @ResponseStatus(HttpStatus.EXPECTATION_FAILED)
+    public ResponseEntity<CustomErrorResponse> sixthException(OutOfStockException e) {
+        CustomErrorResponse error = new CustomErrorResponse(HttpStatus.EXPECTATION_FAILED.toString(), e.getMessage());
+        error.setStatus((HttpStatus.EXPECTATION_FAILED.value()));
+        error.setTimestamp(LocalDateTime.now());
+        ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.EXPECTATION_FAILED);
+        return responseEntity;
+    }
+    @ExceptionHandler(value = InvalidStateException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<CustomErrorResponse> sixthException(InvalidStateException e) {
+        CustomErrorResponse error = new CustomErrorResponse(HttpStatus.BAD_REQUEST.toString(), e.getMessage());
+        error.setStatus((HttpStatus.BAD_REQUEST.value()));
+        error.setTimestamp(LocalDateTime.now());
+        ResponseEntity<CustomErrorResponse> responseEntity = new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         return responseEntity;
     }
 

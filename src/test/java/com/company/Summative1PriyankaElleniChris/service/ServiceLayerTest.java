@@ -1,9 +1,11 @@
 package com.company.Summative1PriyankaElleniChris.service;
 
+import com.company.Summative1PriyankaElleniChris.exceptions.OutOfStockException;
 import com.company.Summative1PriyankaElleniChris.model.*;
 import com.company.Summative1PriyankaElleniChris.repository.*;
 import org.junit.Before;
 import org.junit.Test;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -179,11 +181,61 @@ public class ServiceLayerTest {
         outputInvoice.setTotal(new BigDecimal ("182.21"));
 
         //Act
-
        Invoice actualInvoice = serviceLayer.saveInvoice(inputInvoice);
 
        //Assert
-
         assertEquals(outputInvoice, actualInvoice);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldReturnExceptionIfQuantityLessThan1 (){
+        //Arrange
+        Invoice inputInvoice = new Invoice();
+        inputInvoice.setName("Customer 1");
+        inputInvoice.setStreet("100 Main Street");
+        inputInvoice.setCity("Clovis");
+        inputInvoice.setState("CA");
+        inputInvoice.setZipcode("93612");
+        inputInvoice.setItemType("Game");
+        inputInvoice.setItemId(269);
+        inputInvoice.setQuantity(0);
+
+        //Act
+       serviceLayer.saveInvoice(inputInvoice);
+    }
+
+    @Test(expected = OutOfStockException.class)
+    public void shouldReturnAExceptionIfQuantityOverStock(){
+        //Arrange
+        Invoice inputInvoice = new Invoice();
+        inputInvoice.setName("Customer 1");
+        inputInvoice.setStreet("100 Main Street");
+        inputInvoice.setCity("Clovis");
+        inputInvoice.setState("CA");
+        inputInvoice.setZipcode("93612");
+        inputInvoice.setItemType("Game");
+        inputInvoice.setItemId(269);
+        inputInvoice.setQuantity(1111);
+
+        //Act
+        serviceLayer.saveInvoice(inputInvoice);
+    }
+
+    @Test(expected = InvalidStateException.class)
+    public void shouldReturnAExceptionIfStateIsInvalid(){
+        //Arrange
+        Invoice inputInvoice = new Invoice();
+        inputInvoice.setName("Customer 1");
+        inputInvoice.setStreet("100 Main Street");
+        inputInvoice.setCity("Clovis");
+        inputInvoice.setState("AC");
+        inputInvoice.setZipcode("93612");
+        inputInvoice.setItemType("Game");
+        inputInvoice.setItemId(269);
+        inputInvoice.setQuantity(1);
+
+        //Act
+        serviceLayer.saveInvoice(inputInvoice);
+    }
+
 }
