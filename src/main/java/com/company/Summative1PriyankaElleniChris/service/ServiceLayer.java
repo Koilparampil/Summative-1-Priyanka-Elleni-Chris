@@ -1,10 +1,12 @@
 package com.company.Summative1PriyankaElleniChris.service;
 
 
+import com.company.Summative1PriyankaElleniChris.exceptions.OutOfStockException;
 import com.company.Summative1PriyankaElleniChris.model.Invoice;
 import com.company.Summative1PriyankaElleniChris.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.plugin.dom.exception.InvalidStateException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
@@ -44,7 +46,7 @@ public class ServiceLayer {
             case "Console":
                 //Checking if we have enough stock in our store to handle this invoice
                 if(quantityBuying>consoleRepository.findById(invoice.getItemId()).get().getQuantity()){
-                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                    throw new OutOfStockException("We currently don't have enough stock for you.");
                 } else{
                     //subtracting the bought items from our inventory
                     invoice.setUnitPrice(consoleRepository.findById(invoice.getItemId()).get().getPrice());
@@ -55,7 +57,7 @@ public class ServiceLayer {
 
             case "Game":
                 if(quantityBuying>gameRepository.findById(invoice.getItemId()).get().getQuantity()){
-                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                    throw new OutOfStockException("We currently don't have enough stock for you.");
                 }else{
                     invoice.setUnitPrice(gameRepository.findById(invoice.getItemId()).get().getPrice());
                     Integer quantityAvailable =gameRepository.findById(invoice.getItemId()).get().getQuantity();
@@ -65,7 +67,7 @@ public class ServiceLayer {
 
             case "T-Shirt":
                 if(quantityBuying>t_shirtRepository.findById(invoice.getItemId()).get().getQuantity()){
-                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                    throw new OutOfStockException("We currently don't have enough stock for you.");
                 } else{
                     invoice.setUnitPrice(t_shirtRepository.findById(invoice.getItemId()).get().getPrice());
                     Integer quantityAvailable =t_shirtRepository.findById(invoice.getItemId()).get().getQuantity();
@@ -91,7 +93,7 @@ public class ServiceLayer {
             BigDecimal tempTax =new BigDecimal(taxRate*subtotal);
             invoice.setTax(tempTax.setScale(2, RoundingMode.HALF_UP));// while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
         } else {
-            throw new IllegalArgumentException("Choose a Valid State");
+            throw new InvalidStateException("Choose a Valid State");
         }
 
         //Here we set the initial processingFee, the low number, and then we check how many items the order has,
@@ -109,7 +111,7 @@ public class ServiceLayer {
         invoice.setTotal(tempTotal.setScale(2,RoundingMode.HALF_UP));// while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
 
 
-        invoiceRepository.save(invoice);
+        invoice= invoiceRepository.save(invoice);
         return invoice;
     }
 
