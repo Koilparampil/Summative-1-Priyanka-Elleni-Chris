@@ -86,7 +86,7 @@ public class Invoice {
     // Default constructor
     public Invoice() {}
 
-    public Invoice(String name, String street, String city, String state, String zipcode, String itemType, Integer itemId, BigDecimal unitPrice, Integer quantity) {
+    public Invoice(String name, String street, String city, String state, String zipcode, String itemType, Integer itemId, Integer quantity) {
         this.name = name;
         this.street = street;
         this.city = city;
@@ -94,7 +94,6 @@ public class Invoice {
         this.zipcode = zipcode;
         this.itemType = itemType;
         this.itemId = itemId;
-        this.unitPrice = unitPrice;
         this.quantity = quantity;
     }
 
