@@ -1,6 +1,7 @@
 openapi: 3.0.1
 info:
-  title: Summative_1_Project
+  title: Game Store
+  description: Inventory management web service for a video game store.
   version: v0
 servers:
   - url: http://localhost:8080
