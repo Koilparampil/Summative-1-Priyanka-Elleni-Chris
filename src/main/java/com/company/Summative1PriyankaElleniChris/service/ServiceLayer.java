@@ -17,31 +17,60 @@ public class ServiceLayer {
     private GameRepository gameRepository;
     private InvoiceRepository invoiceRepository;
     private ProcessingFeeRepository processingFeeRepository;
-    private SalesTaxRatRepository salesTaxRatRepository;
+    private SalesTaxRateRepository salesTaxRateRepository;
     private T_shirtRepository t_shirtRepository;
 
     @Autowired
-    public ServiceLayer(ConsoleRepository consoleRepository, GameRepository gameRepository, InvoiceRepository invoiceRepository, ProcessingFeeRepository processingFeeRepository, SalesTaxRatRepository salesTaxRatRepository, T_shirtRepository t_shirtRepository) {
+    public ServiceLayer(ConsoleRepository consoleRepository, GameRepository gameRepository, InvoiceRepository invoiceRepository, ProcessingFeeRepository processingFeeRepository, SalesTaxRateRepository salesTaxRateRepository, T_shirtRepository t_shirtRepository) {
         this.consoleRepository = consoleRepository;
         this.gameRepository = gameRepository;
         this.invoiceRepository = invoiceRepository;
         this.processingFeeRepository = processingFeeRepository;
-        this.salesTaxRatRepository = salesTaxRatRepository;
+        this.salesTaxRateRepository = salesTaxRateRepository;
         this.t_shirtRepository = t_shirtRepository;
     }
 
     @Transactional
     public Invoice  saveInvoice( Invoice invoice){
+
+        //Checking if user bought at least one item
+        if (invoice.getQuantity()<1){
+            throw new IllegalArgumentException("You need to buy at least one item");
+        }
+
         //This Switch is to decide what unit price the item is
+        Integer quantityBuying = invoice.getQuantity();
         switch(invoice.getItemType()){
             case "Console":
-                invoice.setUnitPrice(consoleRepository.findById(invoice.getItemId()).get().getPrice());
+                //Checking if we have enough stock in our store to handle this invoice
+                if(quantityBuying>consoleRepository.findById(invoice.getItemId()).get().getQuantity()){
+                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                } else{
+                    //subtracting the bought items from our inventory
+                    invoice.setUnitPrice(consoleRepository.findById(invoice.getItemId()).get().getPrice());
+                    Integer quantityAvailable =consoleRepository.findById(invoice.getItemId()).get().getQuantity();
+                    consoleRepository.findById(invoice.getItemId()).get().setQuantity(quantityAvailable-quantityBuying);
+                }
                 break;
+
             case "Game":
-                invoice.setUnitPrice(gameRepository.findById(invoice.getItemId()).get().getPrice());
+                if(quantityBuying>gameRepository.findById(invoice.getItemId()).get().getQuantity()){
+                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                }else{
+                    invoice.setUnitPrice(gameRepository.findById(invoice.getItemId()).get().getPrice());
+                    Integer quantityAvailable =gameRepository.findById(invoice.getItemId()).get().getQuantity();
+                    gameRepository.findById(invoice.getItemId()).get().setQuantity(quantityAvailable-quantityBuying);
+                }
                 break;
+
             case "T-Shirt":
-                invoice.setUnitPrice(t_shirtRepository.findById(invoice.getItemId()).get().getPrice());
+                if(quantityBuying>t_shirtRepository.findById(invoice.getItemId()).get().getQuantity()){
+                    throw new IllegalArgumentException("We currently don't have enough stock for you.");
+                } else{
+                    invoice.setUnitPrice(t_shirtRepository.findById(invoice.getItemId()).get().getPrice());
+                    Integer quantityAvailable =t_shirtRepository.findById(invoice.getItemId()).get().getQuantity();
+                    t_shirtRepository.findById(invoice.getItemId()).get().setQuantity(quantityAvailable-quantityBuying);
+                }
                 break;
         }
 
@@ -52,12 +81,18 @@ public class ServiceLayer {
                         new Float(String.valueOf(invoice.getUnitPrice())));
         invoice.setSubtotal(tempSubTotal.setScale(2, RoundingMode.HALF_UP)); // while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
 
-        //To set the Tax we're looking up the tax rate in the database by the state name, then we're setting the subtotal to a local vairble to make the multiplication easier
-        // then we multiply the two together and turn it into the Big Decimal
-        float taxRate =salesTaxRatRepository.findByState(invoice.getState()).getRate();
+
         float subtotal = new Float(String.valueOf(invoice.getSubtotal()));
-        BigDecimal tempTax =new BigDecimal(taxRate*subtotal);
-        invoice.setTax(tempTax.setScale(2, RoundingMode.HALF_UP));// while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
+        //Checking whether we have a valid State or not.
+        if(salesTaxRateRepository.findById(invoice.getState()).isPresent()){
+            //To set the Tax we're looking up the tax rate in the database by the state name, then we're setting the subtotal to a local vairble to make the multiplication easier
+            // then we multiply the two together and turn it into the Big Decimal
+            float taxRate = salesTaxRateRepository.findById(invoice.getState()).get().getRate();
+            BigDecimal tempTax =new BigDecimal(taxRate*subtotal);
+            invoice.setTax(tempTax.setScale(2, RoundingMode.HALF_UP));// while big decimal we scale it down to two decimal places and then do the rounding to half up which is the normal rounding rules
+        } else {
+            throw new IllegalArgumentException("Choose a Valid State");
+        }
 
         //Here we set the initial processingFee, the low number, and then we check how many items the order has,
         invoice.setProcessingFee(processingFeeRepository.findById(invoice.getItemType()).get().getFee());
