@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./GameForm.css";
 import Game from "../Game";
 
 function GameForm({game: initialGame, notify }) {
