@@ -43,6 +43,7 @@ const InvoiceForm = ({ invoice: initialInvoice, notify }) => {
     }
 return (
         <form onSubmit={handleSubmit}>
+            <h1>Add Invoice</h1>
         <div className="mb-3">
             <label htmlFor="name">Name</label>
             <input type="text" id="name" name="name"
