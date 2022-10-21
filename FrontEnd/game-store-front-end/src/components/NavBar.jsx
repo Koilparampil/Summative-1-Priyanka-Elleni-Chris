@@ -6,12 +6,13 @@ const NavBar = () => {
 <Navbar bg="dark" variant="dark" expand={false}>
     <Container fluid>
                 <Nav>
-                    <Nav.Link  href="/Console">Console  </Nav.Link>
+                    <Nav.Link  href="/Console">Console</Nav.Link>
                     <br/>
-                    <Nav.Link  href="/Game">Game    </Nav.Link>
+                    <Nav.Link  href="/Game">Game</Nav.Link>
                     <br/>
-                    <Nav.Link  href="/TShirt">T-Shirt   </Nav.Link>
-
+                    <Nav.Link  href="/TShirt">T-Shirt</Nav.Link>
+                    <br/>
+                    <Nav.Link  href="/Invoice">Invoice</Nav.Link>
                 </Nav>
     </Container>
 </Navbar>
