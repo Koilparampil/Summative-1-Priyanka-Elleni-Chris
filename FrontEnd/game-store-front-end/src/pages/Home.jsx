@@ -8,9 +8,9 @@ const Home = () => {
 <h1>Game Store</h1>
 
 <div class="btn-group" >
-  <button >Consoles</button>
-  <button >Games</button>
-  <button >T-Shirts</button>
+  <button ><a href="/Game">Games</a></button>
+  <button ><a href="/Console">Consoles</a></button>
+  <button ><a href="/TShirt">T-Shirts</a></button>
 </div>
 </>
   )
