@@ -44,22 +44,6 @@ function notify({ action, invoice, error }) {
         getInvoices();
           setInvoices([...invoices, invoice]);
           break;
-      case "edit":
-        getInvoices()
-        setInvoices(invoices.map(e => {
-              if (e.id === invoice.id) {
-                  return console;
-              }
-              return e;
-          }));
-          break;
-      case "edit-form":
-        setScopedInvoice(invoice);
-          setShowForm(true);
-          return;
-      case "delete":
-        setInvoices(invoices.filter(e => e.id !== invoice.id));
-          break;
       default:
           break;
   }

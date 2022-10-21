@@ -4,7 +4,6 @@ import { useState } from 'react';
 const InvoiceForm = ({ invoice: initialInvoice, notify }) => {
 
     const [invoice, setInvoice] = useState(initialInvoice);
-    const isAdd = initialInvoice.id === 0;
 
     function handleChange(evt) {
         const clone = { ...invoice };
@@ -31,11 +30,7 @@ const InvoiceForm = ({ invoice: initialInvoice, notify }) => {
             .then(response => {
 
                 if (response.status === expectedStatus) {
-                    if (isAdd) {
                         return response.json();
-                    } else {
-                        return invoice;
-                    }
                 }
                 return Promise.reject(`Didn't receive expected status: ${expectedStatus}`);
             })
@@ -69,6 +64,7 @@ return (
         <div className="mb-3">
                     <label htmlFor="state">State</label>
                     <select name="state" value={invoice.state} onChange={handleChange}>
+                        <option value="">Choose a State</option>
                         <option value="AL">Alabama</option>
                         <option value="AK">Alaska</option>
                         <option value="AZ">Arizona</option>
@@ -131,6 +127,7 @@ return (
         <div className="mb-3">
                     <label htmlFor="itemType">itemType</label>
                     <select name="itemType" value={invoice.itemType} onChange={handleChange}>
+                        <option value="">Choose A Item Type</option>
                         <option value="Game">Game</option>
                         <option value="Console">Console</option>
                         <option value="T-Shirt">T-Shirt</option>
