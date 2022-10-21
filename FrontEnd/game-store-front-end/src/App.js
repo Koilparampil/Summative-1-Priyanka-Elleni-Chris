@@ -4,9 +4,11 @@ import Console from "./pages/Console.jsx"
 import Game from "./pages/Game.jsx"
 import TShirt from "./pages/TShirt.jsx"
 import Home from "./pages/Home.jsx"
+import NavBar from './components/NavBar';
 function App() {
   return (
 <BrowserRouter>
+<NavBar/>
 <Routes>
 <Route path='/' element= {<Home/>}/>
 <Route path='/Game' element= {<Game/>}/>

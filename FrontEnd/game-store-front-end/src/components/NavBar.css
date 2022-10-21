@@ -1,0 +1,4 @@
+nav ul li { 
+    margin-left: 15px; /* if the nav is on the right */ 
+    margin-right: 15px; /* if the nav is on the left */ 
+  } 
