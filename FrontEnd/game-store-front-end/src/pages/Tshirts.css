@@ -1,4 +1,4 @@
-#tshirtTitle {
+#tshirtTitle{
     text-align: center;
   }
   
@@ -8,13 +8,22 @@
   }
   
   #tshirt {
-    text-align: left;
+    text-align: center;
     width: 100%;
+    padding: auto;
+    
   }
   
-  #tshirts td, #tshirts th {
-    border: 1px solid;
-    padding: 10px;
+  #tshirts tr {
+    border: 3px solid;
+    padding: 20px;
+    margin: 10px;
+  }
+
+  #tshirts th  {
+    border: 3px solid;
+    padding: 20px;
+
   }
   
   #deleteButton {
@@ -22,4 +31,13 @@
   }
   #editButton {
     margin: 0 10px 0 0;
+  }
+  select[name = "color"] {
+    margin: 2 50px;
+    padding: 15px;
+  }
+
+  select[name = "size"] {
+    margin: 2 50px;
+    padding: 15px;
   }
