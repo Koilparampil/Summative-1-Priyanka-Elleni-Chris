@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./Game.css";
 import GameCard from "./components/GameCard";
 import GameForm from "./components/GameForm";
 
@@ -136,7 +137,7 @@ const Game = () => {
     <div>
       <h1 id="gameTitle">Games</h1>
 
-      <div>
+      <div id='buttonPanel' className="row mt-2">
         <button className="btn btn-primary" type="button" onClick={addClick}>
           Add a game
         </button>
