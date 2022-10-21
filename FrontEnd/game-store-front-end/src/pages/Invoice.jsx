@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import InvoiceForm from '../components/InoviceForm';
 import InvoiceCard from "../components/InvoiceCard"
 const Invoice = () => {
@@ -6,7 +6,7 @@ const Invoice = () => {
   const [showForm, setShowForm] = useState(false);
   const [scopedInvoice, setScopedInvoice] = useState({})
   const [error, setError] = useState();
-
+  const inputRef2 = useRef(null);
   useEffect(()=>{
     getInvoices()
 },[])
@@ -17,6 +17,14 @@ const getInvoices = () => {
   .then(result => setInvoices(result))
   .catch(console.log);
 }
+
+const getInvoicesByName = () =>{
+  fetch(`http://localhost:8080/invoices/CustomerName/${inputRef2.current.value}`)
+  .then(response => response.json())
+  .then(result => setInvoices(result))
+  .catch(console.log);
+}
+
 
 function addClick(){
   setScopedInvoice({ id: 0 });
@@ -68,7 +76,10 @@ if (showForm) {
     <div id='buttonPanel' className="row mt-2">
         <button className="btn btn-primary" type="button"onClick={addClick}>Add an Invoice</button>
         <br />
-        <button onClick={getInvoices}>Show me all the Invoices Again</button>
+        <button onClick={getInvoices}>Show me all the Invoices </button>
+        <br />
+        <input type="text" id="id" name="id" className="form-control" ref={inputRef2}/>
+        <button onClick={getInvoicesByName}>Lookup By Name</button>
     </div>
         <div>
             <h1 id='consolesTitle'>Invoices</h1>
