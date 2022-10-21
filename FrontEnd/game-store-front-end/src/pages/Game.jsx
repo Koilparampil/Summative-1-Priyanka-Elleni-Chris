@@ -13,10 +13,11 @@ const Game = () => {
 
   // Get all games
   useEffect(() => {
-    fetch("http://localhost:8080/games")
-      .then((response) => response.json())
-      .then((result) => setGames(result))
-      .catch(console.log);
+    getAllGames();
+    // fetch("http://localhost:8080/games")
+    //   .then((response) => response.json())
+    //   .then((result) => setGames(result))
+    //   .catch(console.log);
   }, []);
 
   //
@@ -28,10 +29,11 @@ const Game = () => {
   // Gets games by ESRB
   const fetchByEsrbRating = (event) => {
     if (event.target.value === "") {
-      fetch("http://localhost:8080/games")
-        .then((response) => response.json())
-        .then((result) => setGames(result))
-        .catch(console.log);
+      getAllGames();
+      // fetch("http://localhost:8080/games")
+      //   .then((response) => response.json())
+      //   .then((result) => setGames(result))
+      //   .catch(console.log);
     } else {
       fetch("http://localhost:8080/games/rating/" + event.target.value)
         .then((response) => response.json())
@@ -51,10 +53,11 @@ const Game = () => {
     event.preventDefault();
 
     if (!title) {
-      fetch("http://localhost:8080/games")
-        .then((response) => response.json())
-        .then((result) => setGames(result))
-        .catch(console.log);
+      getAllGames();
+      // fetch("http://localhost:8080/games")
+      //   .then((response) => response.json())
+      //   .then((result) => setGames(result))
+      //   .catch(console.log);
     } else {
       fetch("http://localhost:8080/games/title/" + title)
         .then((response) => response.json())
@@ -76,10 +79,11 @@ const Game = () => {
     event.preventDefault();
 
     if (!studio) {
-      fetch("http://localhost:8080/games")
-        .then((response) => response.json())
-        .then((result) => setGames(result))
-        .catch(console.log);
+      getAllGames();
+      // fetch("http://localhost:8080/games")
+      //   .then((response) => response.json())
+      //   .then((result) => setGames(result))
+      //   .catch(console.log);
     } else {
       fetch("http://localhost:8080/games/studio/" + studio)
         .then((response) => response.json())
@@ -89,6 +93,13 @@ const Game = () => {
 
     setStudio("");
   };
+
+  function getAllGames() {
+    fetch("http://localhost:8080/games")
+    .then((response) => response.json())
+    .then((result) => setGames(result))
+    .catch(console.log);
+  }
 
   function notify({ action, game, error }) {
     if (error) {
