@@ -45,7 +45,7 @@ const ConsoleForm = ({ console: initialConsole, notify }) => {
             .catch(error => notify({ error: error }));
     
     }
-if (console.id!=0){
+if (console.id!==0){
   return (
     <form onSubmit={handleSubmit}>
     <div className="mb-3">
