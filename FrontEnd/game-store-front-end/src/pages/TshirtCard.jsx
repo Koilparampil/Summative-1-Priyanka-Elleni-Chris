@@ -7,8 +7,8 @@ function TshirtCard({ tshirt, notify }) {
         .catch(error => notify({action: "delete", error: error}))
     }   
     return (
-        <tr key={tshirt.tshirtId}>
-            <td>{tshirt.tshirt}</td>
+        <tr key={tshirt.id}>
+            <td>{tshirt.id}</td>
             <td>{tshirt.color}</td>
             <td>{tshirt.size}</td>
             <td>{tshirt.description}</td>

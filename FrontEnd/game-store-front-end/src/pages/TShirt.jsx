@@ -121,7 +121,7 @@ function Tshirts() {
                
                 <tr>
                 
-                    <th>Tshirt</th>
+                    <th>Tshirt Id</th>
                     <th>Color</th>
                     <th>Size</th>
                     <th>Description</th>
