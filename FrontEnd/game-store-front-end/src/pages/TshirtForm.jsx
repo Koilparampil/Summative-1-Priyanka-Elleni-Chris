@@ -1,0 +1,117 @@
+import { useState } from 'react';
+
+function TshirtForm({ tshirt: initialTshirt, notify }) {
+
+    const [tshirt, setTshirt] = useState(initialTshirt);
+    const isAdd = initialTshirt.id === 0;
+
+    function handleChange(event) {
+
+        const clone = { ...tshirt };
+        clone[event.target.name] = event.target.value;
+        setTshirt(clone);
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+
+        console.log(tshirt)
+
+        const url =   "http://localhost:8080/tshirt";
+        const method = isAdd ? "POST" : "PUT";
+        const expectedStatus = isAdd ? 201 : 204;
+
+        const init = {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(tshirt)
+        };
+
+        fetch(url, init)
+
+        
+            .then(response => {
+                if (response.status === expectedStatus) {
+                    if (isAdd) {
+                        return response.json();
+                    } else {
+                        return tshirt;
+                    }
+                }
+                return Promise.reject(`Didn't receive expected status: ${expectedStatus}`);
+            })
+            .then(result => notify({
+                action: isAdd ? "add" : "edit",
+                tshirt: result
+            }))
+            .catch(error => notify({ error: error }));
+
+    }
+
+    return (
+        <>
+            <h1>{tshirt.id > 0 ? "Edit" : "Add"} Tshirt</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label htmlFor="tshirt">Tshirt</label>
+                    <input type="text" id="tshirt" name="tshirt"
+                        className="form-control"
+                        value={tshirt.tshirt} onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="color">Color</label>
+                    <select name ="color" value={tshirt.color} onChange={handleChange} >
+                        <option>Pick your color</option>
+                        <option value="red">Red</option>
+                        <option value="gold">Gold</option>
+                        <option value="camouflage">Camouflage</option>
+                        <option value="green">Green</option>
+                    </select> 
+                </div>
+
+                <div className="mb-3">
+                    <label htmlFor="size">Size</label>
+                    <select name="size" value={tshirt.size} onChange={handleChange}>
+                        <option>Pick your size</option>
+                        <option value="s">small</option>
+                        <option value="m">medium</option>
+                        <option value="l">large</option>
+                        <option value="xl">xlarge</option>
+                        <option value="xs">xsmall</option>
+                    </select>
+                 </div>   
+
+                <div className="mb-3">
+                    <label htmlFor="description">Description</label>
+                    <input type="text" id="description" name="description"
+                        className="form-control"
+                        value={tshirt.description} onChange={handleChange} />
+                </div>
+                <div className="mb-3">
+                    <label htmlFor="price">Price</label>
+                    <input type="text" id="price" name="price"
+                        className="form-control"
+                        value={tshirt.price} onChange={handleChange} />
+                </div>
+                
+                <div className="mb-3">
+                    <label htmlFor="quantity">Quantity</label>
+                    <input type="text" id="quantity" name="quantity"
+                        className="form-control"
+                        value={tshirt.quantity} onChange={handleChange} />
+                </div>
+
+
+                <div className="mb-3">
+                    <button className="btn btn-primary mr-3" type="submit">Save</button>
+                    <button className="btn btn-secondary" type="button" onClick={() => notify({ action: "cancel" })}>Cancel</button>
+                </div>
+            </form>
+        </>
+    );
+}
+
+export default TshirtForm;
