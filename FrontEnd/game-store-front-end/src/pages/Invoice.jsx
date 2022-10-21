@@ -1,4 +1,5 @@
 import {useEffect, useState, useRef} from 'react'
+import "./Invoice.css";
 import InvoiceForm from '../components/InoviceForm';
 import InvoiceCard from "../components/InvoiceCard"
 const Invoice = () => {
@@ -66,8 +67,8 @@ if (showForm) {
         <button onClick={getInvoicesByName}>Lookup By Name</button>
     </div>
         <div>
-            <h1 id='consolesTitle'>Invoices</h1>
-            <table id='consoles'>
+            <h1 id='invoiceTitle'>Invoices</h1>
+            <table id='invoices'>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
