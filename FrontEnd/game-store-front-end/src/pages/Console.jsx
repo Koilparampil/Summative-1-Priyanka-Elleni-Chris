@@ -23,13 +23,13 @@ const Console = () => {
         .catch(console.log);
     }
 
-    const handleClick1 = () =>{
+    const getConsolesByID = () =>{
         fetch(`http://localhost:8080/consoles/manufacturer/${inputRef.current.value}`)
         .then(response => response.json())
-        .then(result => setConsoles(result))
+        .then(result => setConsoles([result]))
         .catch(console.log);
     }
-    const handleClick2 = () =>{
+    const getConsolesByManufacturer = () =>{
         fetch(`http://localhost:8080/consoles/${inputRef2.current.value}`)
         .then(response => response.json())
         .then(result => setConsoles([result]))
@@ -90,10 +90,10 @@ const Console = () => {
             <button className="btn btn-primary" type="button"onClick={addClick}>Add a Console to Our Stock</button>
             <br />
             <input type="text" id="manufacturer" name="manufacturer" className="form-control" ref={inputRef}/>
-            <button onClick={handleClick1}>Lookup By Manufacturer</button>
+            <button onClick={getConsolesByManufacturer}>Lookup By Manufacturer</button>
             <br />
-            <input type="text" id="manufacturer" name="manufacturer" className="form-control" ref={inputRef2}/>
-            <button onClick={handleClick2}>Lookup By ID</button>
+            <input type="text" id="id" name="id" className="form-control" ref={inputRef2}/>
+            <button onClick={getConsolesByID}>Lookup By ID</button>
             <br />
             <button onClick={getConsoles}>Show me all the consoles Again</button>
         </div>
