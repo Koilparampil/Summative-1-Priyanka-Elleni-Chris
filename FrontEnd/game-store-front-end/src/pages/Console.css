@@ -11,12 +11,12 @@
     margin: 0 50px;
   }
   
-  #customers {
+  #consoles {
     text-align: left;
     width: 100%;
   }
   
-  #customers td, #customers th {
+  #consoles td, #customers th {
     border: 1px solid;
     padding: 10px;
   }
