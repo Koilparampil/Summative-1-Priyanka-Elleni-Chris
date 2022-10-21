@@ -7,7 +7,7 @@ const Game = () => {
   const [error, setError] = useState();
   const [title, setTitle] = useState("");
   const [studio, setStudio] = useState("");
-  const [scopedGame, setScopedGame] = useState();
+  const [scopedGame, setScopedGame] = useState({});
   const [showForm, setShowForm] = useState();
 
   // Get all games
@@ -20,7 +20,7 @@ const Game = () => {
 
   //
   const addClick = () => {
-    setScopedGame({ gameId: 0, title: "", esrbRating: "E", description: "", price: 0, studio: "", quantity: 0 });
+    setScopedGame({ gameId: 0, title: "", esrbRating: "E", description: "", studio: "" });
     setShowForm(true);
   };
 
