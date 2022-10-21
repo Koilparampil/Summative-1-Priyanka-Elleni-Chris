@@ -5,6 +5,7 @@ import Game from "./pages/Game.jsx"
 import TShirt from "./pages/TShirt.jsx"
 import Home from "./pages/Home.jsx"
 import NavBar from './components/NavBar';
+import Invoice from "./pages/Invoice"
 function App() {
   return (
 <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
 <Route path='/Game' element= {<Game/>}/>
 <Route path='/Console' element= {<Console/>}/>
 <Route path='/TShirt' element= {<TShirt/>}/>
+<Route path='/Invoice' element= {<Invoice/>}/>
 </Routes>
 </BrowserRouter>
   );
