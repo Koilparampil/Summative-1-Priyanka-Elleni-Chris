@@ -15,7 +15,7 @@ function TshirtForm({tshirt: initialTshirt, notify}) {
 
         console.log(tshirt);
 
-        const url = "http://localhost:8080/Tshirt";
+        const url =   "http://localhost:8080/Tshirt"; 
         const method = isAdd ? "POST" : "PUT";
         const expectedStatus = isAdd ? 201 : 204;
 
