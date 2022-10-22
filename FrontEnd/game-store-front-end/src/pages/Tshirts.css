@@ -7,23 +7,16 @@
     margin: 50px 0;
   }
   
-  #tshirt {
+  #tshirts {
     text-align: center;
     width: 100%;
-    padding: auto;
     
   }
   
-  #tshirts tr {
-    border: 3px solid;
-    padding: 20px;
-    margin: 10px;
-  }
-
-  #tshirts th  {
-    border: 3px solid;
-    padding: 20px;
-
+  #tshirts tr, #tshirts th  {
+    border: 1px solid;
+    padding: 10px;
+   
   }
   
   #deleteButton {

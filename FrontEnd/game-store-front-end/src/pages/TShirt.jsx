@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import TshirtCard from './TshirtCard';
 import TshirtForm from './TshirtForm';
+import "./Tshirts.css";
 
 function Tshirts() {
     const [tshirts, setTshirts] = useState([]); 
@@ -9,23 +10,18 @@ function Tshirts() {
     const [showForm, setShowForm] = useState(false);
     const [error, setError] = useState();
     
+    
     useEffect(() => {
         fetch("http://localhost:8080/Tshirt")
-        .then(r => r.json())
+        .then(res => res.json())
         .then(result => setTshirts(result))
-        .catch(console.log)
+        .catch(console.log);
+       
     }, []);
 
-    function addClick() {
-        setScopedTshirt({id:0, tshirt: "", color: "", size: "", description: "", price: 0, quantity:1});
-        setShowForm(true);
-    }
-
-
-
     function fetchByColor(e){
-        if (e.target.value ==="") {
-            setTshirts([]);
+        if (e.target.value === "") {
+        setTshirts([]);
         } else {
             fetch("http://localhost:8080/Tshirt/color/" + e.target.value)
                 .then(response => response.json())
@@ -34,24 +30,20 @@ function Tshirts() {
         }
     }
 
-
     function fetchBySize(e){
         if (e.target.value ==="") {
-            setTshirts([]);
-        } else {
+           setTshirts([]);
             fetch("http://localhost:8080/Tshirt/size/" + e.target.value)
                 .then(response => response.json())
                 .then(result => setTshirts(result))
-                .catch(console.log);
+                .catch(console.log(error));
         }
     }
-
-    
     function addClick() {
         setScopedTshirt({id:0, tshirt: "", color: "", size: "", description: "", price: 0, quantity:1});
+
         setShowForm(true);
     }
-
 
     function notify({action, tshirt, error}){
         if (error) {
@@ -66,19 +58,21 @@ function Tshirts() {
                 break;
             case "edit":
                 setTshirts(tshirts.map(e => {
-                    if (tshirt.tShirtId === e.tShirtId) {
+                    if (tshirt.id === e.id) {
                         return tshirt;
                     }
                     return e;
-                }) )
+                }))
                 break;
             case "edit-form":
-                setScopedTshirt(tshirt);
                 setShowForm(true);
+                setScopedTshirt(tshirt);
                 return;
             case "delete":
-                setTshirts(tshirts.filter(e=> tshirt.tShirtId !==  e.tShirtId))
+                setTshirts(tshirts.filter(e=> e.id !==  tshirt.id))
                 break;
+            default:
+                console.log("Invalid Action" + action);
         }
         setError("");
         setShowForm(false);
@@ -95,7 +89,8 @@ function Tshirts() {
 
           <div>
             <button className="btn btn-primary" type="button" onClick={addClick}>Add a Tshirt</button>
-            
+
+         
             <select name="color" onChange={fetchByColor}>
                 <option value="red">Red</option>
                 <option value="gold">Gold</option>
@@ -131,7 +126,7 @@ function Tshirts() {
                 </tr>
                 
                 <tbody>
-                    {tshirts.map(res => <TshirtCard key={res.tshirtId} tshirt={res} notify={notify} />)}
+                    {tshirts.map(res => <TshirtCard key={res.id} tshirt={res} notify={notify} />)}
                 </tbody>
             </table>
 
